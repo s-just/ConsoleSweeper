@@ -15,3 +15,7 @@ To fix this instead of making the conditional logic over-complicated, I created 
 Since C++ vectors do not check for out of bounds or return null, I use an explicit check once before accessing the tile, and again for each tile that would be it's neighbor.
 
 I would like to return whether or not the game is over when revealing a tile so next time I work on this I will add a struct or class to define the game state.
+
+---
+
+I added a struct for the game state and there are no current issues apart from not dealing with bad user input.
