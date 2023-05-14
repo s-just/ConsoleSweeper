@@ -1,4 +1,4 @@
-# Minesweeper
+# ConsoleSweeper
 
 A simple program that builds a tilemap for minesweeper and lets the user play through the console.
 
