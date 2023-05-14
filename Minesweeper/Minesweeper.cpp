@@ -45,6 +45,11 @@ bool PositionIsValid(int x, int y)
 	return (x >= 0) && (y >= 0) && (x < ROWS) && (y < COLS);
 }
 
+struct GameState {
+	TileMap gameMap;  // This is public
+	bool gameOver = false;
+};
+
 TileMap AddNeighborCounts(TileMap uncountedMap)
 {
 	TileMap countedMap = uncountedMap;
@@ -124,22 +129,26 @@ TileMap BuildMap()
 	return newCountedMap;
 }
 
-TileMap RevealTile(TileMap currentMap,int x, int y)
+GameState RevealTile(TileMap currentMap,int x, int y)
 {
-	
+	bool isGameOver = false;
 	currentMap[x][y].discovered = true;
 	
 	if (currentMap[x][y].value == 1)
 	{
 		std::cout << "BOOM! GAME OVER!" << "\n";
+		isGameOver = true;
 	}
 	else
 	{
 		std::cout << "Good job, that tile was safe." << "\n";
 	}
 
-	TileMap newMap = currentMap;
-	return newMap;
+
+	GameState currState;
+	currState.gameMap = currentMap;
+	currState.gameOver = isGameOver;
+	return currState;
 }
 
 void PrintMap(TileMap currentMap)
@@ -173,11 +182,12 @@ void PrintMap(TileMap currentMap)
 int main()
 {
     std::cout << "Generating Map!\n";
-	TileMap minesweeperMap = BuildMap();
-	PrintMap(minesweeperMap);
+	GameState gameState;
+	gameState.gameMap = BuildMap();
+	PrintMap(gameState.gameMap);
 	while (true)
 	{
-		
+
 		int colSelected = -1;
 
 		std::cout << "Select a column: ";
@@ -189,8 +199,10 @@ int main()
 		std::cin >> rowSelected;
 		//Take Input
 
-		minesweeperMap = RevealTile(minesweeperMap, rowSelected, colSelected);
-		PrintMap(minesweeperMap);
+		gameState = RevealTile(gameState.gameMap, rowSelected, colSelected);
+		PrintMap(gameState.gameMap);
+		if (gameState.gameOver)
+			break;
 	}
 
 	
