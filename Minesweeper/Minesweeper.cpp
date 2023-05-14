@@ -39,6 +39,12 @@ public:
 // Type alias for a 2D vector of Tiles
 using TileMap = std::vector<std::vector<Tile>>;
 
+
+bool PositionIsValid(int x, int y)
+{
+	return (x >= 0) && (y >= 0) && (x < ROWS) && (y < COLS);
+}
+
 TileMap AddNeighborCounts(TileMap uncountedMap)
 {
 	TileMap countedMap = uncountedMap;
@@ -48,33 +54,41 @@ TileMap AddNeighborCounts(TileMap uncountedMap)
 		for (int j = 0; j < COLS; j++)
 		{
 			int count = 0;
-			if (i - 1 >= 0 && j - 1 >= 0 && i + 1 < ROWS && j + 1 < COLS)
+			if (PositionIsValid(i,j))
 			{
 				//Check neighbours.
 				//N*
-				if (countedMap[i][j + 1].value == 1)
-					count++;
+				if (PositionIsValid(i, j+1))
+					if (countedMap[i][j + 1].value == 1)
+						count++;
 				//NE*
-				if (countedMap[i + 1][j + 1].value == 1)
-					count++;
+				if (PositionIsValid(i+1, j + 1))
+					if (countedMap[i + 1][j + 1].value == 1)
+						count++;
 				//E
-				if (countedMap[i + 1][j].value == 1)
-					count++;
+				if (PositionIsValid(i + 1, j))
+					if (countedMap[i + 1][j].value == 1)
+						count++;
 				//SE
-				if (countedMap[i + 1][j - 1].value == 1)
-					count++;
+				if (PositionIsValid(i + 1, j - 1))
+					if (countedMap[i + 1][j - 1].value == 1)
+						count++;
 				//S
-				if (countedMap[i][j - 1].value == 1)
-					count++;
+				if (PositionIsValid(i, j - 1))
+					if (countedMap[i][j - 1].value == 1)
+						count++;
 				//SW
-				if (countedMap[i - 1][j - 1].value == 1)
-					count++;
+				if (PositionIsValid(i - 1, j - 1))
+					if (countedMap[i - 1][j - 1].value == 1)
+						count++;
 				//W
-				if (countedMap[i - 1][j].value == 1)
-					count++;
+				if (PositionIsValid(i - 1, j))
+					if (countedMap[i - 1][j].value == 1)
+						count++;
 				//NW
-				if (countedMap[i - 1][j + 1].value == 1)
-					count++;
+				if (PositionIsValid(i - 1, j + 1))
+					if (countedMap[i - 1][j + 1].value == 1)
+						count++;
 			}
 			countedMap[i][j].neighborCount = count;
 		}
@@ -112,6 +126,7 @@ TileMap BuildMap()
 
 TileMap RevealTile(TileMap currentMap,int x, int y)
 {
+	
 	currentMap[x][y].discovered = true;
 	
 	if (currentMap[x][y].value == 1)
@@ -123,7 +138,8 @@ TileMap RevealTile(TileMap currentMap,int x, int y)
 		std::cout << "Good job, that tile was safe." << "\n";
 	}
 
-	return currentMap;
+	TileMap newMap = currentMap;
+	return newMap;
 }
 
 void PrintMap(TileMap currentMap)
