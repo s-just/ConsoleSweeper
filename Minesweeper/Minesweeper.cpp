@@ -50,10 +50,8 @@ struct GameState {
 	bool gameOver = false;
 };
 
-TileMap AddNeighborCounts(TileMap uncountedMap)
+TileMap AddNeighborCounts(TileMap& uncountedMap)
 {
-	TileMap countedMap = uncountedMap;
-
 	for (int i = 0; i < ROWS; i++)
 	{
 		for (int j = 0; j < COLS; j++)
@@ -64,42 +62,42 @@ TileMap AddNeighborCounts(TileMap uncountedMap)
 				//Check neighbours.
 				//N*
 				if (PositionIsValid(i, j+1))
-					if (countedMap[i][j + 1].value == 1)
+					if (uncountedMap[i][j + 1].value == 1)
 						count++;
 				//NE*
 				if (PositionIsValid(i+1, j + 1))
-					if (countedMap[i + 1][j + 1].value == 1)
+					if (uncountedMap[i + 1][j + 1].value == 1)
 						count++;
 				//E
 				if (PositionIsValid(i + 1, j))
-					if (countedMap[i + 1][j].value == 1)
+					if (uncountedMap[i + 1][j].value == 1)
 						count++;
 				//SE
 				if (PositionIsValid(i + 1, j - 1))
-					if (countedMap[i + 1][j - 1].value == 1)
+					if (uncountedMap[i + 1][j - 1].value == 1)
 						count++;
 				//S
 				if (PositionIsValid(i, j - 1))
-					if (countedMap[i][j - 1].value == 1)
+					if (uncountedMap[i][j - 1].value == 1)
 						count++;
 				//SW
 				if (PositionIsValid(i - 1, j - 1))
-					if (countedMap[i - 1][j - 1].value == 1)
+					if (uncountedMap[i - 1][j - 1].value == 1)
 						count++;
 				//W
 				if (PositionIsValid(i - 1, j))
-					if (countedMap[i - 1][j].value == 1)
+					if (uncountedMap[i - 1][j].value == 1)
 						count++;
 				//NW
 				if (PositionIsValid(i - 1, j + 1))
-					if (countedMap[i - 1][j + 1].value == 1)
+					if (uncountedMap[i - 1][j + 1].value == 1)
 						count++;
 			}
-			countedMap[i][j].neighborCount = count;
+			uncountedMap[i][j].neighborCount = count;
 		}
 	}
 
-	return countedMap;
+	return uncountedMap;
 }
 
 
